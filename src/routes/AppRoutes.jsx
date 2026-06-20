@@ -7,23 +7,26 @@ import CompleteProfile from "../pages/CompleteProfile";
 import InterestSelection from "../pages/InterestSelection";
 import WellbeingPillars from "../pages/WellbeingPillars";
 import Welcome from "../pages/Welcome";
+import RegistrationLayout from "../layout/RegistrationLayout";
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<VerifyCompany />} />
+      <Route element={<RegistrationLayout />}>
+        <Route path="/" element={<VerifyCompany />} />
 
-      <Route path="/user-details" element={<UserDetails />} />
+        <Route path="/user-details" element={<UserDetails />} />
 
-      <Route path="/verify-otp" element={<OtpVerification />} />
+        <Route path="/verify-otp" element={<OtpVerification />} />
 
-      <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/complete-profile" element={<CompleteProfile />} />
 
-      <Route path="/interest-selection" element={<InterestSelection />} />
+        <Route path="/interest-selection" element={<InterestSelection />} />
 
-      <Route path="/wellbeing-pillars" element={<WellbeingPillars />} />
+        <Route path="/wellbeing-pillars" element={<WellbeingPillars />} />
 
-      <Route path="/welcome" element={<Welcome />} />
+        <Route path="/welcome" element={<Welcome />} />
+      </Route>
     </Routes>
   );
 }
