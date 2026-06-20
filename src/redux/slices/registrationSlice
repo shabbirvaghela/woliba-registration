@@ -1,0 +1,66 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  companyVerified: false,
+  companyName: "",
+
+  user: {
+    email: "",
+    firstName: "",
+    lastName: "",
+  },
+
+  otpVerified: false,
+
+  credentials: {
+    password: "",
+    dob: "",
+    phone: "",
+    anniversary: "",
+  },
+
+  interests: [],
+  pillars: [],
+};
+
+const registrationSlice = createSlice({
+  name: "registration",
+  initialState,
+  reducers: {
+    setCompany(state, action) {
+      state.companyVerified = true;
+      state.companyName = action.payload;
+    },
+
+    setUserDetails(state, action) {
+      state.user = action.payload;
+    },
+
+    setOtpVerified(state) {
+      state.otpVerified = true;
+    },
+
+    setCredentials(state, action) {
+      state.credentials = action.payload;
+    },
+
+    setInterests(state, action) {
+      state.interests = action.payload;
+    },
+
+    setPillars(state, action) {
+      state.pillars = action.payload;
+    },
+  },
+});
+
+export const {
+  setCompany,
+  setUserDetails,
+  setOtpVerified,
+  setCredentials,
+  setInterests,
+  setPillars,
+} = registrationSlice.actions;
+
+export default registrationSlice.reducer;
