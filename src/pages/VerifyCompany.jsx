@@ -10,98 +10,70 @@ import { setCompany } from "../redux/slices/registrationSlice";
 import Button from "../components/common/button";
 import RegistrationLayout from "../layout/RegistrationLayout";
 import RegistrationCard from "../components/common/RegistrationCard";
+import { useForm } from "react-hook-form";
 
 export default function VerifyCompany() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [companyName, setCompanyName] = useState("");
-
-  const [password, setPassword] = useState("");
-
-  const [errors, setErrors] = useState({});
-
   const [loading, setLoading] = useState(false);
 
-  const validatePassword = (value) => {
-    return /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(value);
-  };
-
-  const validate = () => {
-    const newErrors = {};
-
-    if (!companyName.trim()) {
-      newErrors.companyName = "Company name is required";
-    }
-
-    if (!password) {
-      newErrors.password = "Password is required";
-    } else if (!validatePassword(password)) {
-      newErrors.password =
-        "Password must contain uppercase letter, number and minimum 8 characters";
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validate()) return;
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onBlur",
+  });
+  const onSubmit = async (data) => {
     try {
       setLoading(true);
 
       const response = await verifyCompany({
-        company_name: companyName,
-        password,
+        company_name: data.companyName,
+
+        password: data.password,
       });
 
-      if (response?.status === "success") {
-        const company = response.data?.[0];
+      dispatch(setCompany(response.data[0]));
 
-        dispatch(setCompany(company));
-
-        navigate("/user-details");
-      }
-    } catch (error) {
-      setErrors({
-        api: error?.response?.data?.error || "Verification failed",
-      });
+      navigate("/user-details");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <RegistrationCard title="Registration">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Company Name"
           placeholder="Enter Company Name"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          error={errors.companyName}
+          error={errors.companyName?.message}
+          {...register("companyName", {
+            required: "Company name is required",
+          })}
         />
 
         <Input
           type="password"
           label="Company Password"
           placeholder="Enter Company Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password?.message}
+          {...register("password", {
+            required: "Password is required",
+
+            pattern: {
+              value: /^(?=.*[A-Z])(?=.*\d).{8,}$/,
+
+              message: "Password must contain uppercase letter and number",
+            },
+          })}
         />
 
         {errors.api && <p className="mb-4 text-red-500">{errors.api}</p>}
 
-        <Button
-          type="submit"
-          loading={loading}
-          disabled={!companyName || !password}
-        >
-          Continue
+        <Button type="submit" loading={loading} disabled={!isValid || loading}>
+          Next
         </Button>
       </form>
     </RegistrationCard>

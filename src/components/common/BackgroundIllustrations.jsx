@@ -28,7 +28,7 @@ function BackgroundIllustrations() {
       <img
         src={vector4}
         alt="Background Vector"
-        className="absolute top-[40%] right-2/12 w-[11%]"
+        className="absolute top-[40%] right-[11%] w-[11%]"
       />
       <img
         src={vector5}
