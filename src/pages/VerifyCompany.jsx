@@ -7,9 +7,9 @@ import Input from "../components/common/Input";
 import { verifyCompany } from "../services/registrationService";
 
 import { setCompany } from "../redux/slices/registrationSlice";
-import Button from "../components/common/button";
 import RegistrationCard from "../components/common/RegistrationCard";
 import { useForm } from "react-hook-form";
+import Button from "../components/common/Button";
 
 export default function VerifyCompany() {
   const dispatch = useDispatch();
