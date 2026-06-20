@@ -8,7 +8,6 @@ import { verifyCompany } from "../services/registrationService";
 
 import { setCompany } from "../redux/slices/registrationSlice";
 import Button from "../components/common/button";
-import RegistrationLayout from "../layout/RegistrationLayout";
 import RegistrationCard from "../components/common/RegistrationCard";
 import { useForm } from "react-hook-form";
 
