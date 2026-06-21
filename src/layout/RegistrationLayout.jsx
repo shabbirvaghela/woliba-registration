@@ -9,7 +9,7 @@ export default function RegistrationLayout() {
       <BackgroundIllustrations />
       <div className="relative z-1 flex w-full flex-col">
         <Header />
-        <main className="flex flex-1 items-center justify-center">
+        <main className="flex flex-1 items-center justify-center py-10">
           <Outlet />
         </main>
         <Footer />

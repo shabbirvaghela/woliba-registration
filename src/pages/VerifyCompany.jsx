@@ -10,23 +10,33 @@ import { setCompany } from "../redux/slices/registrationSlice";
 import RegistrationCard from "../components/common/RegistrationCard";
 import { useForm } from "react-hook-form";
 import Button from "../components/common/Button";
+import { hideLoader, showLoader } from "../redux/slices/appSlice";
 
 export default function VerifyCompany() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
   });
+
   const onSubmit = async (data) => {
+    // temp fix
+    navigate("/user-details");
+    dispatch(
+      setCompany({
+        id: 12,
+        company_name: "Alpine Intel",
+      }),
+    );
+    return;
+    // temp fix
     try {
-      setLoading(true);
+      dispatch(showLoader());
 
       const response = await verifyCompany({
         company_name: data.companyName,
@@ -38,7 +48,7 @@ export default function VerifyCompany() {
 
       navigate("/user-details");
     } finally {
-      setLoading(false);
+      dispatch(hideLoader());
     }
   };
   return (
@@ -68,10 +78,9 @@ export default function VerifyCompany() {
             },
           })}
         />
-
         {errors.api && <p className="mb-4 text-red-500">{errors.api}</p>}
 
-        <Button type="submit" loading={loading} disabled={!isValid || loading}>
+        <Button type="submit" disabled={!isValid}>
           Next
         </Button>
       </form>
